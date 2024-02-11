@@ -1,4 +1,4 @@
-import responseHandler from "../handler/response.handler.js";    
+import responseHandler from "../handlers/response.handler.js";    
 import tmbdbApi from "../tmdb/tmdb.api.js";
 
 const personDetail = async (req, res) => {
