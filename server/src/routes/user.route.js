@@ -2,7 +2,7 @@ import express from 'express';
 import {body} from "express-validator";
 import favoriteController from "../controllers/favorite.controller.js";
 import userController from "../controllers/user.controller.js";
-import requestHandler from "../handlers/request.handler.js";
+import {validate} from "../handlers/request.handler.js";
 import userModel from "../models/user.model.js";
 import tokenMiddleware from "../middlewares/token.middleware.js";
 
@@ -33,7 +33,7 @@ router.post(
     body("displayName")
         .exists().withMessage("Display name is required")
         .isLength({min: 4 }).withMessage("Display names must have at least 4 characters"),
-    requestHandler.validate,
+    validate,
     userController.register
 )
 //login route
@@ -45,7 +45,7 @@ router.post(
     body("password")
         .exists().withMessage("Password is required")
         .isLength({min: 9}).withMessage("Password is required"),
-    requestHandler.validate,
+    validate,
     userController.login
 )
 //update password route
@@ -65,7 +65,7 @@ router.put(
             if(value !== req.body.newPassword) throw new Error("Passwords must match")
             return true;
         }),
-    requestHandler.validate,
+    validate,
     userController.updatePassword
 )
 
@@ -97,7 +97,7 @@ router.post(
         .exists().withMessage("mediaPoster is required"),
     body("mediaRate")
         .exists().withMessage("mediaRate is required"),
-    requestHandler.validate,
+    validate,
     favoriteController.addFavorite
 )
 //remove favorites route
