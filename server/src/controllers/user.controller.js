@@ -1,6 +1,6 @@
-import userModel from '../models/user.model';
+import userModel from '../models/user.model.js';
 import jsonwebtoken from 'jsonwebtoken';
-import responseHandler from '../handlers/response.handler';
+import responseHandler from '../handlers/response.handler.js';
 
 
 const register = async (req, res) => {
@@ -29,7 +29,7 @@ const register = async (req, res) => {
         responseHandler.created(res, {
             token,
             ...user._doc,
-            id: user._id
+            id: user.id
         });
     }catch{
         responseHandler.error(res)
