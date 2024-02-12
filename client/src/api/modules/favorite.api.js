@@ -8,7 +8,7 @@ const favoriteEndpoints = {
 
 
 const favoriteAPI = {
-    list: async() => {
+    getList: async() => {
         try{
             const response = await privateClient.get(
                 favoriteEndpoints.list
