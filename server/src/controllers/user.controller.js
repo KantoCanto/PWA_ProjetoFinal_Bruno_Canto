@@ -3,7 +3,7 @@ import jsonwebtoken from 'jsonwebtoken';
 import responseHandler from '../handlers/response.handler.js';
 
 
-const signup= async (req, res) => {
+const signup = async (req, res) => {
     try{
         const { username, password, displayName } = req.body;
 
@@ -12,7 +12,7 @@ const signup= async (req, res) => {
             return responseHandler.badrequest(res, "username already exists")
         }
 
-        const user = new userModel()
+        const user = new userModel();
 
         user.displayName = displayName;
         user.username = username;
@@ -21,9 +21,9 @@ const signup= async (req, res) => {
         await user.save();
         
         const token = jsonwebtoken.sign(
-            {data: user._id},
+            {data: user.id},
             process.env.TOKEN_SECRET,
-            {expiresIn: "24h"}
+            {expiresIn: "30d"}
         );
 
         responseHandler.created(res, {
@@ -53,9 +53,9 @@ const signin = async (req, res) => {
         };
 
         const token = jsonwebtoken.sign(
-            {data: user._id},
+            {data: user.id},
             process.env.TOKEN_SECRET,
-            {expiresIn: "24h"}
+            {expiresIn: "30d"}
         );
 
         user.password = undefined;
@@ -64,7 +64,7 @@ const signin = async (req, res) => {
         responseHandler.created(res, {
             token,
             ...user._doc,
-            id: user._id
+            id: user.id
         });
 
     }catch{
@@ -95,7 +95,7 @@ const updatePassword = async (req, res) => {
     }
 }
 
-const getInfo = async (req, res) => {
+const getInfo = async (req, res) => {
     try{
         const user = await userModel.findById(req.user.id);
 

@@ -5,11 +5,11 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
-import userApi from "../../api/modules/user.api";
+import userAPI from "../../api/modules/user.api";
 import { setAuthModalOpen } from "../../redux/features/authModalSlice";
 import { setUser } from "../../redux/features/userSlice";
 
-const LoginForm = ({ switchAuthState }) => {
+const SignInForm = ({ switchAuthState }) => {
   const dispatch = useDispatch();
 
   const [isLoginRequest, setIsLoginRequest] = useState(false);
@@ -32,7 +32,7 @@ const LoginForm = ({ switchAuthState }) => {
       setErrorMessage(undefined);
       setIsLoginRequest(true);
       console.log("logged in");
-      const { response, err } = await userApi.login(values);
+      const { response, err } = await userAPI.signin(values);
       setIsLoginRequest(false);
 
       if (response) {
@@ -101,4 +101,4 @@ const LoginForm = ({ switchAuthState }) => {
   );
 };
 
-export default LoginForm;
+export default SignInForm;

@@ -2,18 +2,18 @@ import privateClient from "../client/private.client";
 import publicClient from "../client/public.client";
 
 const userEndpoints = {
-    register: "user/register",
-    login: "user/login",
-    getInfo: "user/info",
-    passwordUpdate: "user/update-password",
+    signup: "/user/signup",
+    signin: "/user/signin",
+    getInfo: "/user/info",
+    passwordUpdate: "/user/update-password",
 }
 
 
 const userAPI = {
-    register: async ({username, password, confirmPassword, displayName}) => {
+    signup: async ({username, password, confirmPassword, displayName}) => {
         try{
             const response = await publicClient.post(
-                userEndpoints.register,
+                userEndpoints.signup,
                 {username, password, confirmPassword, displayName}
             )
 
@@ -22,10 +22,10 @@ const userAPI = {
             return {err}
         }
     },
-    login: async ({username, password}) => {
+    signin: async ({username, password}) => {
         try{
             const response = await publicClient.post(
-                userEndpoints.login,
+                userEndpoints.signin,
                 {username, password}
             )
 
