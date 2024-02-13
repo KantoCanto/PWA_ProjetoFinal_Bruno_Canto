@@ -21,8 +21,12 @@ publicClient.interceptors.request.use(async config => {
 
 publicClient.interceptors.response.use((response) => {
     if(response && response.data){
+        if(response.data === ""){
+            throw new Error("Empty response from server");
+        }
         return response.data;
     }
+   
     return response;
 }, (err) => {
     throw err.response.data;

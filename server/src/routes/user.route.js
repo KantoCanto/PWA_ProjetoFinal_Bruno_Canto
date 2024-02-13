@@ -10,7 +10,7 @@ const router = express.Router();
 
 //register route
 router.post(
-    "/register", 
+    "/signup", 
     body("username")
         .exists().withMessage("Username is required")
         .isLength({min: 6}).withMessage("Usernames must have at least 6 characters")
@@ -34,11 +34,11 @@ router.post(
         .exists().withMessage("Display name is required")
         .isLength({min: 4 }).withMessage("Display names must have at least 4 characters"),
     validate,
-    userController.register
+    userController.signup
 )
 //login route
 router.post(
-    "/login",
+    "/signin",
     body("username")
         .exists().withMessage("Username is required")
         .isLength({min: 6}).withMessage("Username is required"),
@@ -46,7 +46,7 @@ router.post(
         .exists().withMessage("Password is required")
         .isLength({min: 9}).withMessage("Password is required"),
     validate,
-    userController.login
+    userController.signin
 )
 //update password route
 router.put(

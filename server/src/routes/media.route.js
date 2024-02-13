@@ -6,10 +6,12 @@ const router = express.Router({mergeParams: true});
 
 router.get("/search", mediaController.search)
 
-router.get("/genres", mediaController.getGenre)
+router.get("/genres", mediaController.getGenres)
+
+router.get("/:mediaCategory", mediaController.getList)
 
 router.get("/details/mediaId", mediaController.getDetail)
 
-router.get("/:mediaCategoty", mediaController.getList)
+
 
 export default router;
