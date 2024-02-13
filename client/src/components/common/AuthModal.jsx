@@ -7,8 +7,8 @@ import SigninForm from "./SigninForm";
 import SignupForm from "./SignupForm";
 
 const actionState = {
-  signin: "signin",
-  signup: "signup"
+  login: "login",
+  register: "register"
 };
 
 const AuthModal = () => {
@@ -16,10 +16,10 @@ const AuthModal = () => {
 
   const dispatch = useDispatch();
 
-  const [action, setAction] = useState(actionState.signin);
+  const [action, setAction] = useState(actionState.login);
 
   useEffect(() => {
-    if (authModalOpen) setAction(actionState.signin);
+    if (authModalOpen) setAction(actionState.login);
   }, [authModalOpen]);
 
   const handleClose = () => dispatch(setAuthModalOpen(false));
@@ -43,9 +43,9 @@ const AuthModal = () => {
             <Logo />
           </Box>
 
-          {action === actionState.signin && <SigninForm switchAuthState={() => switchAuthState(actionState.signup)} />}
+          {action === actionState.login && <SigninForm switchAuthState={() => switchAuthState(actionState.register)} />}
 
-          {action === actionState.signup && <SignupForm switchAuthState={() => switchAuthState(actionState.signin)} />}
+          {action === actionState.register && <SignupForm switchAuthState={() => switchAuthState(actionState.login)} />}
         </Box>
       </Box>
     </Modal>

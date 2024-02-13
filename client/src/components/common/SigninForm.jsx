@@ -9,7 +9,7 @@ import userApi from "../../api/modules/user.api";
 import { setAuthModalOpen } from "../../redux/features/authModalSlice";
 import { setUser } from "../../redux/features/userSlice";
 
-const SigninForm = ({ switchAuthState }) => {
+const LoginForm = ({ switchAuthState }) => {
   const dispatch = useDispatch();
 
   const [isLoginRequest, setIsLoginRequest] = useState(false);
@@ -31,8 +31,8 @@ const SigninForm = ({ switchAuthState }) => {
     onSubmit: async values => {
       setErrorMessage(undefined);
       setIsLoginRequest(true);
-      console.log("asdasdasdasd");
-      const { response, err } = await userApi.signin(values);
+      console.log("logged in");
+      const { response, err } = await userApi.login(values);
       setIsLoginRequest(false);
 
       if (response) {
@@ -101,4 +101,4 @@ const SigninForm = ({ switchAuthState }) => {
   );
 };
 
-export default SigninForm;
+export default LoginForm;

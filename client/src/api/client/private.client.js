@@ -1,7 +1,7 @@
 import axios from "axios";
 import queryString from "query-string";
 
-const baseURL = 'http://localhost:3000/api/';
+const baseURL = 'http://localhost:3030/api';
 
 const privateClient = axios.create({
     baseURL,
