@@ -1,8 +1,8 @@
 import { Box } from "@mui/material";
 import { Outlet } from "react-router-dom";
-//import Footer from "../common/Footer";
+import Footer from "../common/Footer";
 import GlobalLoading from "../common/GlobalLoading";
-//import Topbar from "../common/Topbar";
+import Topbar from "../common/Topbar";
 //import AuthModal from "../common/AuthModal";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
@@ -51,7 +51,7 @@ const MainLayout = () => {
 
       <Box display="flex" minHeight="100vh">
         {/* header */}
-        {/* <Topbar /> */}
+        <Topbar />
         {/* header */}
 
         {/* main */}
@@ -67,7 +67,7 @@ const MainLayout = () => {
       </Box>
 
       {/* footer */}
-      {/* <Footer /> */}
+      <Footer />
       {/* footer */}
     </>
   );
