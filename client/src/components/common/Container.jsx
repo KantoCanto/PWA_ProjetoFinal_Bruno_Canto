@@ -12,12 +12,12 @@ const Container = ({header, children}) => {
        {header && (
           <Box sx={{
             position: "relative",
-            paddomgX: {xs: "20px", md: 0},
+            paddingX: {xs: "20px", md: 0},
             maxWidth: "1366px",
             marginX: "auto",
             width: "100%",
             "&::before": {
-              content: ' "" ',
+              content: '" "" "' ,
               position: "absolute",
               left:{ xs: "20px", md: 0},
               top: "100%",
