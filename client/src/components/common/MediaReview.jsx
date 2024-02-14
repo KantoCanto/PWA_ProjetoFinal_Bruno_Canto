@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import dayjs from "dayjs";
 import { useSelector } from "react-redux";
 import Container from "./Container";
-import reviewApi from "../../api/modules/review.api";
+import reviewAPI from "../../api/modules/review.api";
 import TextAvatar from "./TextAvatar";
 
 const ReviewItem = ({ review, onRemoved }) => {
@@ -19,7 +19,7 @@ const ReviewItem = ({ review, onRemoved }) => {
     if (onRequest) return;
     setOnRequest(true);
 
-    const { response, err } = await reviewApi.remove({ reviewId: review.id });
+    const { response, err } = await reviewAPI.remove({ reviewId: review.id });
 
     if (err) toast.error(err.message);
     if (response) onRemoved(review.id);
@@ -101,7 +101,7 @@ const MediaReview = ({ reviews, media, mediaType }) => {
       mediaPoster: media.poster_path
     };
 
-    const { response, err } = await reviewApi.add(body);
+    const { response, err } = await reviewAPI.add(body);
 
     setOnRequest(false);
 

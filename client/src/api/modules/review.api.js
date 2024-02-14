@@ -1,7 +1,7 @@
 import privateClient from "../client/private.client"
 
 const reviewEndpoints = {
-    list: "reviews",
+    getList: "reviews",
     add: "reviews",
     remove: ({reviewId}) => `reviews/${reviewId}`
 }
@@ -45,7 +45,7 @@ const reviewAPI = {
             return {err}
         }
     },
-    list: async() => {
+    getList: async() => {
         try{
             const response = await privateClient.get(
                 reviewEndpoints.list

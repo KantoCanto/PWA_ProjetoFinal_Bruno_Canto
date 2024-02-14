@@ -207,14 +207,14 @@ const MediaDetail = () => {
                       startIcon={<PlayArrowIcon />}
                       onClick={() => videoRef.current.scrollIntoView()}
                     >
-                      watch now
+                      More Info
                     </Button>
                   </Stack>
                   {/* buttons */}
 
                   {/* cast */}
                   <Container header="Cast">
-                    <CastSlide casts={media.credits.cast} />
+                    {media.credits && <CastSlide casts={media.credits.cast} />}
                   </Container>
                   {/* cast */}
                 </Stack>
@@ -227,43 +227,43 @@ const MediaDetail = () => {
           {/* media videos */}
           <div ref={videoRef} style={{ paddingTop: "2rem" }}>
             <Container header="Videos">
-              <MediaVideosSlide videos={[...media.videos.results].splice(0, 5)} />
+              {media.videos && media.videos.results && <MediaVideosSlide videos={[...media.videos.results].splice(0, 5)} />}
             </Container>
           </div>
           {/* media videos */}
 
           {/* media backdrop */}
-          {media.images.backdrops.length > 0 && (
+          {media?.images?.backdrops?.length > 0 && (
             <Container header="backdrops">
-              <BackdropSlide backdrops={media.images.backdrops} />
+               <BackdropSlide backdrops={media.images.backdrops} />
             </Container>
-          )}
+)}
           {/* media backdrop */}
 
           {/* media posters */}
-          {media.images.posters.length > 0 && (
-            <Container header="posters">
-              <PosterSlide posters={media.images.posters} />
-            </Container>
-          )}
+          {media?.images?.posters?.length > 0 && (
+  <Container header="posters">
+    <PosterSlide posters={media.images.posters} />
+  </Container>
+)}
           {/* media posters */}
 
           {/* media reviews */}
-          <MediaReview reviews={media.reviews} media={media} mediaType={mediaType} />
-          {/* media reviews */}
+{Array.isArray(media?.reviews) && <MediaReview reviews={media.reviews} media={media} mediaType={mediaType} />}
+{/* media reviews */}
 
           {/* media recommendation */}
           <Container header="you may also like">
-            {media.recommend.length > 0 && (
-              <RecommendSlide medias={media.recommend} mediaType={mediaType} />
-            )}
-            {media.recommend.length === 0 && (
-              <MediaSlide
-                mediaType={mediaType}
-                mediaCategory={tmdbConfigs.mediaCategory.top_rated}
-              />
-            )}
-          </Container>
+  {media?.recommend?.length > 0 && (
+    <RecommendSlide medias={media.recommend} mediaType={mediaType} />
+  )}
+  {media?.recommend?.length === 0 && (
+    <MediaSlide
+      mediaType={mediaType}
+      mediaCategory={tmdbConfigs.mediaCategory.top_rated}
+    />
+  )}
+</Container>
           {/* media recommendation */}
         </Box>
       </>

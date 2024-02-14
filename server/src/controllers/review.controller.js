@@ -32,7 +32,7 @@ const remove = async (req, res) => {
         })
 
         if(!review){
-            return responseHandler.notFound(res)
+            return responseHandler.notfound(res)
         }
 
         await review.remove(),

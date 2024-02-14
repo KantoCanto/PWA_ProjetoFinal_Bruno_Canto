@@ -10,7 +10,7 @@ router.get("/genres", mediaController.getGenres)
 
 router.get("/:mediaCategory", mediaController.getList)
 
-router.get("/details/mediaId", mediaController.getDetail)
+router.get("/:mediaType/:mediaId", mediaController.getDetail)
 
 
 
