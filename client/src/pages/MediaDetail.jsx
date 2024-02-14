@@ -1,10 +1,9 @@
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 
 import { LoadingButton } from "@mui/lab";
-import { Box, Button, Chip, Divider, Stack, Typography } from "@mui/material";
-import { useEffect, useState, useRef } from "react";
+import { Box, Chip, Divider, Stack, Typography } from "@mui/material";
+import { useEffect, useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -15,19 +14,17 @@ import ImageHeader from "../components/common/ImageHeader";
 
 import uiConfigs from "../configs/ui.config";
 import tmdbConfigs from "../api/configs/tmdb.config";
-import mediaApi from "../api/modules/media.api";
-import favoriteApi from "../api/modules/favorite.api";
+import mediaAPI from "../api/modules/media.api";
+import reviewAPI from "../api/modules/review.api";
+import favoriteAPI from "../api/modules/favorite.api";
 
 import { setGlobalLoading } from "../redux/features/globalLoadingSlice";
 import { setAuthModalOpen } from "../redux/features/authModalSlice";
 import { addFavorite, removeFavorite } from "../redux/features/userSlice";
 
-import CastSlide from "../components/common/CastSlide";
-import MediaVideosSlide from "../components/common/MediaVideosSlide";
+
 import BackdropSlide from "../components/common/BackdropSlide";
 import PosterSlide from "../components/common/PosterSlide";
-import RecommendSlide from "../components/common/RecommendSlide";
-import MediaSlide from "../components/common/MediaSlide";
 import MediaReview from "../components/common/MediaReview";
 
 const MediaDetail = () => {
@@ -39,29 +36,40 @@ const MediaDetail = () => {
   const [isFavorite, setIsFavorite] = useState(false);
   const [onRequest, setOnRequest] = useState(false);
   const [genres, setGenres] = useState([]);
+  const [reviews, setReviews] = useState([]);
 
   const dispatch = useDispatch();
 
-  const videoRef = useRef(null);
+
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-    const getMedia = async () => {
-      dispatch(setGlobalLoading(true));
-      const { response, err } = await mediaApi.getDetail({ mediaType, mediaId });
-      dispatch(setGlobalLoading(false));
+  const getMedia = async () => {
+    // Fetch media details
+    const { response: mediaResponse, err: mediaErr } = await mediaAPI.getDetail({ mediaType, mediaId });
 
-      if (response) {
-        setMedia(response);
-        setIsFavorite(response.isFavorite);
-        setGenres(response.genres.splice(0, 2));
-      }
+    if (mediaResponse) {
+      setMedia(mediaResponse);
+      setIsFavorite(mediaResponse.isFavorite);
+      setGenres(mediaResponse.genres.splice(0, 2));
+    }
 
-      if (err) toast.error(err.message);
-    };
+    if (mediaErr) toast.error(mediaErr.message);
 
-    getMedia();
-  }, [mediaType, mediaId, dispatch]);
+    // Fetch reviews
+    const { response: reviewsResponse, err: reviewsErr } = await reviewAPI.getList({ mediaType, mediaId });
+
+    if (reviewsResponse) {
+      setReviews(reviewsResponse);
+    }
+
+    if (reviewsErr) toast.error(reviewsErr.message);
+
+    dispatch(setGlobalLoading(false));
+  };
+
+  dispatch(setGlobalLoading(true));
+  getMedia();
+}, [mediaType, mediaId, dispatch]);
 
   const onFavoriteClick = async () => {
     if (!user) return dispatch(setAuthModalOpen(true));
@@ -83,7 +91,7 @@ const MediaDetail = () => {
       mediaRate: media.vote_average
     };
 
-    const { response, err } = await favoriteApi.add(body);
+    const { response, err } = await favoriteAPI.add(body);
 
     setOnRequest(false);
 
@@ -101,7 +109,7 @@ const MediaDetail = () => {
 
     const favorite = listFavorites.find(e => e.mediaId.toString() === media.id.toString());
 
-    const { response, err } = await favoriteApi.remove({ favoriteId: favorite.id });
+    const { response, err } = await favoriteAPI.remove({ favoriteId: favorite.id });
 
     setOnRequest(false);
 
@@ -200,23 +208,9 @@ const MediaDetail = () => {
                       loading={onRequest}
                       onClick={onFavoriteClick}
                     />
-                    <Button
-                      variant="contained"
-                      sx={{ width: "max-content" }}
-                      size="large"
-                      startIcon={<PlayArrowIcon />}
-                      onClick={() => videoRef.current.scrollIntoView()}
-                    >
-                      More Info
-                    </Button>
                   </Stack>
                   {/* buttons */}
 
-                  {/* cast */}
-                  <Container header="Cast">
-                    {media.credits && <CastSlide casts={media.credits.cast} />}
-                  </Container>
-                  {/* cast */}
                 </Stack>
               </Box>
               {/* media info */}
@@ -224,47 +218,27 @@ const MediaDetail = () => {
           </Box>
           {/* media content */}
 
-          {/* media videos */}
-          <div ref={videoRef} style={{ paddingTop: "2rem" }}>
-            <Container header="Videos">
-              {media.videos && media.videos.results && <MediaVideosSlide videos={[...media.videos.results].splice(0, 5)} />}
-            </Container>
-          </div>
-          {/* media videos */}
-
           {/* media backdrop */}
           {media?.images?.backdrops?.length > 0 && (
             <Container header="backdrops">
                <BackdropSlide backdrops={media.images.backdrops} />
             </Container>
-)}
+          )}
           {/* media backdrop */}
 
           {/* media posters */}
           {media?.images?.posters?.length > 0 && (
-  <Container header="posters">
-    <PosterSlide posters={media.images.posters} />
-  </Container>
-)}
+            <Container header="posters">
+              <PosterSlide posters={media.images.posters} />
+            </Container>
+          )}
           {/* media posters */}
 
           {/* media reviews */}
-{Array.isArray(media?.reviews) && <MediaReview reviews={media.reviews} media={media} mediaType={mediaType} />}
-{/* media reviews */}
+            <h2>Reviews</h2>
+            {Array.isArray(reviews) && <MediaReview reviews={reviews} media={media} mediaType={mediaType} />}
+          {/* media reviews */}
 
-          {/* media recommendation */}
-          <Container header="you may also like">
-  {media?.recommend?.length > 0 && (
-    <RecommendSlide medias={media.recommend} mediaType={mediaType} />
-  )}
-  {media?.recommend?.length === 0 && (
-    <MediaSlide
-      mediaType={mediaType}
-      mediaCategory={tmdbConfigs.mediaCategory.top_rated}
-    />
-  )}
-</Container>
-          {/* media recommendation */}
         </Box>
       </>
     ) : null

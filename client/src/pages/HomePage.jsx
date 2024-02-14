@@ -18,15 +18,15 @@ const HomePage = () => {
               </Container>
 
               <Container header="popular series">
-                <MediaSlide mediaType={tmdbConfig.mediaType.movie} mediaCategory={tmdbConfig.mediaCategory.popular} />
+                <MediaSlide mediaType={tmdbConfig.mediaType.tv} mediaCategory={tmdbConfig.mediaCategory.popular} />
               </Container>
 
               <Container header="top rated movies">
-                <MediaSlide mediaType={tmdbConfig.mediaType.movie} mediaCategory={tmdbConfig.mediaCategory.popular} />
+                <MediaSlide mediaType={tmdbConfig.mediaType.movie} mediaCategory={tmdbConfig.mediaCategory.top_rated} />
               </Container>
 
               <Container header="top rated series">
-                <MediaSlide mediaType={tmdbConfig.mediaType.movie} mediaCategory={tmdbConfig.mediaCategory.popular} />
+                <MediaSlide mediaType={tmdbConfig.mediaType.tv} mediaCategory={tmdbConfig.mediaCategory.top_rated} />
               </Container>
             </Box>
         </>
